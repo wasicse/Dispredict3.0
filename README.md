@@ -75,7 +75,7 @@ docker build --build-arg USER=$USER \
             --build-arg UID=$UID \
             --build-arg GID=$GID \
             --build-arg PW=asdf \
-            -t dispredict3.0\
+            -t wasicse/dispredict3.0\
             -f Dockerfile.txt\
             .        
 ```
@@ -91,7 +91,7 @@ docker build --build-arg USER=$USER \
 ```
 docker run -ti --name dispredict3.0_build  \
         -v /$(pwd):/home/$USER/Dispredict3.0  \
-        dispredict3.0:latest
+        wasicse/dispredict3.0:latest
 ```
 
 - Then, run following python commands inside the docker container to have the disordered prediction.
