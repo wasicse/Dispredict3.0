@@ -79,51 +79,32 @@ docker build --build-arg USER=$USER \
             -f Dockerfile.txt\
             .        
 ```
-
-#### Run Dispredict3.0 using Docker image
-- Create the dispredict3.0 container and mount the output and input(example) directory into the docker container.
-
-```
-docker run -ti --name dispredict3.0_build  \
-               -v /$(pwd)/output:/home/$USER/output  \
-               -v /$(pwd)/example:/home/$USER/example  \
-               dispredict3.0:latest 
-```
-
-- Then, run following python commands inside the docker container to have the disordered prediction.
-
-```
-source $HOME/.poetry/env
-cd script
-poetry run python Dispredict3.0.py "../example/sample.fasta"
-```
-
-- Finally, check **output** folder for results. The output should be available in both the host and docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
-
  #### (Alternatively) Pull image from Docker registry.
 
 - Pull the image from the registry.
  ```
  docker pull wasicse/dispredict3.0
 ```
-- Create the dispredict3.0 container.
+#### Run Dispredict3.0 using Docker image
+- Create the dispredict3.0 container and mount the output and input(example) directory into the docker container.
 
 ```
-docker run -ti --name dispredict3.0_pull  \
-               wasicse/dispredict3.0 
+docker run -ti --name dispredict3.0_build  \
+        -v /$(pwd):/home/$USER/Dispredict3.0  \
+        dispredict3.0:latest
 ```
 
-- Then, run following python commands inside the docker container to have the disordered prediction. Though the image already contains dispredict3.0 installation, it is recommended to use the latest version from github as shown below.
+- Then, run following python commands inside the docker container to have the disordered prediction.
 
 ```
 source $HOME/.poetry/env
 poetry shell
-git clone https://github.com/wasicse/Dispredict3.0.git
 cd Dispredict3.0/script
-python Dispredict3.0.py "../example/sample.fasta"
+poetry run python Dispredict3.0.py "../example/sample.fasta"
 ```
 
-- The output should be available in docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
+- Finally, check **output** folder for results. The output should be available in both the host and docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
+
 
 
 ## Authors

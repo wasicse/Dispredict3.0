@@ -34,8 +34,8 @@ RUN pyenv install ${PYTHON_VERSION} && \
       pyenv global ${PYTHON_VERSION} && \
       curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
-COPY --chown=$USER:$USER . .
-# COPY --chown=$USER:$USER poetry.lock pyproject.toml ./
+# COPY --chown=$USER:$USER . .
+COPY --chown=$USER:$USER poetry.lock pyproject.toml ./
 RUN /bin/bash -c 'source $HOME/.poetry/env && POETRY_VIRTUALENVS_IN_PROJECT=true poetry install --no-dev --no-root'
 
 
