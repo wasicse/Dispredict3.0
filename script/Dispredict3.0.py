@@ -87,7 +87,7 @@ def dispredict(fasta_filepath):
 
     # %%
     print("Dispredict3.0 prediction started...")
-    threshold=0.5
+    threshold=0.382
     # flagpid=0
     for record in SeqIO.parse(fasta_filepath, "fasta"):
         print(record.id)
@@ -179,14 +179,32 @@ def dispredict(fasta_filepath):
         saved_model = joblib.load("../models/model.pkl")
         # print(np_allfeat.shape)
         proba = saved_model.predict_proba(np_allfeat)
+
         pred = (proba[:,1] >= threshold).astype(np.int)
 
         result=np.hstack((np_index,np.round(proba[:,1], 3).reshape(-1,1) ,pred.reshape(-1,1))) 
+
+
+        
+
+        num_ones = (pred == 1).sum()
+        fd_proba=num_ones/pred.shape[0]
+        if(fd_proba > 0.95):
+                print("Fully disorder proteins") 
+                fd_label=1               
+        else:
+                print("Not Fully disorder proteins") 
+                fd_label=0 
 
         with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt", "ab") as f:
             f.write((">"+pid+"\n").encode())
             fmt = '%s', '%s', '%1.3f', '%s'
             np.savetxt(f, result, delimiter='\t',fmt=fmt) 
+            
+        with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_fullydisPred.txt", "ab") as f:
+            f.write((">"+pid+"\n").encode())
+            fmt = '%1.3f', '%s'
+            np.savetxt(f, [fd_proba, fd_label ], delimiter='\t',fmt=fmt) 
 
 
     bashCommand="rm -rf ../tools/fldpnn/output/*"

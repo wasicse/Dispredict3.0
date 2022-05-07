@@ -1,0 +1,85 @@
+BLASTP 2.2.24 [Aug-08-2010]
+
+
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+
+
+Reference for compositional score matrix adjustment: Altschul, Stephen F., 
+John C. Wootton, E. Michael Gertz, Richa Agarwala, Aleksandr Morgulis,
+Alejandro A. Schaffer, and Yi-Kuo Yu (2005) "Protein database searches
+using compositionally adjusted substitution matrices", FEBS J. 272:5101-5109.
+
+Query= P61626
+         (148 letters)
+
+Database: blastDB 
+           315 sequences; 135,201 total letters
+
+Searching....................................................done
+
+
+
+                                                                 Score    E
+Sequences producing significant alignments:                      (bits) Value
+
+DP00259                                                               176   6e-47
+
+>DP00259 
+          Length = 147
+
+ Score =  176 bits (447), Expect = 6e-47,   Method: Compositional matrix adjust.
+ Identities = 82/146 (56%), Positives = 107/146 (73%), Gaps = 1/146 (0%)
+
+Query: 1   MKALIVLGLVLLSVTVQGKVFERCELARTLKRLGMDGYRGISLANWMCLAKWESGYNTRA 60
+           M++L++L L  L +   GKV+ RCELA  +KRLG+D YRG SL NW+C AK+ES +NT A
+Sbjct: 1   MRSLLILVLCFLPLAALGKVYGRCELAAAMKRLGLDNYRGYSLGNWVCAAKFESNFNTHA 60
+
+Query: 61  TNYNAGDRSTDYGIFQINSRYWCNDGKTPGAVNACHLSCSALLQDNIADAVACAKRVVRD 120
+           TN N  D STDYGI QINSR+WCNDG+TPG+ N C++ CSALL  +I  +V CAK++   
+Sbjct: 61  TNRNT-DGSTDYGILQINSRWWCNDGRTPGSKNLCNIPCSALLSSDITASVNCAKKIASG 119
+
+Query: 121 PQGIRAWVAWRNRCQNRDVRQYVQGC 146
+             G+ AWVAWRNRC+  DV  +++GC
+Sbjct: 120 GNGMNAWVAWRNRCKGTDVHAWIRGC 145
+
+
+  Database: blastDB
+    Posted date:  Jan 1, 2014  3:33 PM
+  Number of letters in database: 135,201
+  Number of sequences in database:  315
+  
+Lambda     K      H
+   0.324    0.136    0.448 
+
+Lambda     K      H
+   0.267   0.0410    0.140 
+
+
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Number of Hits to DB: 39,351
+Number of Sequences: 315
+Number of extensions: 1568
+Number of successful extensions: 5
+Number of sequences better than 10.0: 1
+Number of HSP's better than 10.0 without gapping: 1
+Number of HSP's successfully gapped in prelim test: 0
+Number of HSP's that attempted gapping in prelim test: 3
+Number of HSP's gapped (non-prelim): 1
+length of query: 148
+length of database: 135,201
+effective HSP length: 61
+effective length of query: 87
+effective length of database: 115,986
+effective search space: 10090782
+effective search space used: 10090782
+T: 11
+A: 40
+X1: 15 ( 7.0 bits)
+X2: 38 (14.6 bits)
+X3: 64 (24.7 bits)
+S1: 40 (21.6 bits)
+S2: 40 (20.0 bits)
