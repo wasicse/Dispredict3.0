@@ -1,0 +1,4 @@
+#!/bin/sh
+cd IUPRED;
+./iupred $1 $2
+

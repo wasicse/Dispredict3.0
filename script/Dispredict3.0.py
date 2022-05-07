@@ -1,0 +1,213 @@
+# Author : Md Wasi Ul Kabir  
+
+import torch
+import esm
+import pathlib 
+import joblib
+import numpy as np
+import warnings
+from Bio import SeqIO
+import gdown
+import subprocess
+from optparse import OptionParser
+import os
+import random
+
+warnings.filterwarnings("ignore")
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  
+np.set_printoptions(precision=3)
+
+# Set a seed value: 
+seed_value= 2515  
+os.environ['PYTHONHASHSEED']=str(seed_value) 
+random.seed(seed_value) 
+np.random.seed(seed_value) 
+
+def loadModels():
+    print("Loading models...")
+    output = "../models/model.pkl"
+    path = pathlib.Path(output)
+    if not path.is_file():
+        
+        url = "https://drive.google.com/file/d/1AtbqscE6ZnTTCSnyVl638Gdapwra6ZVW/view?usp=sharing"
+        gdown.download(url=url, output=output, quiet=False, fuzzy=True)
+
+    output = "../models/pca.pkl"
+    path = pathlib.Path(output)
+    if not path.is_file():
+        url = "https://drive.google.com/file/d/1AyuZjqtY9FEX42_FBScgKU1Z306Q40Q_/view?usp=sharing"
+        gdown.download(url=url, output=output, quiet=False, fuzzy=True)
+
+    output = "../models/scaler.pkl"
+    path = pathlib.Path(output)
+    if not path.is_file():
+        url = "https://drive.google.com/file/d/1B25xIOsY5cah16WATiSE3nmEP239snOO/view?usp=sharing"
+        gdown.download(url=url, output=output, quiet=False, fuzzy=True)
+
+
+
+    output = "../tools/fldpnn/programs/blast-2.2.24/db/swissprot.psq"
+    path = pathlib.Path(output)
+    if not path.is_file():
+        url = "https://drive.google.com/file/d/1--7n1F_hfsQRIn3G9EomcUudq1ulrt_u/view?usp=sharing"
+        gdown.download(url=url, output=output, quiet=False, fuzzy=True)
+
+    output = "../tools/fldpnn/programs/blast-2.2.24/db/swissprot.phr"
+    path = pathlib.Path(output)
+    if not path.is_file():
+        url = "https://drive.google.com/file/d/1-MLCrnS4n8Ip9tmMHXOaoBezrgAqjnOw/view?usp=sharing"
+        gdown.download(url=url, output=output, quiet=False, fuzzy=True)
+
+
+def dispredict(fasta_filepath):
+    
+    path = pathlib.Path("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt")
+    if path.is_file():
+            print("Removing old output files...") 
+            bashCommand="rm -rf ../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt"
+            output = subprocess.check_output(["bash","-c", bashCommand])
+            print(output.decode('utf-8')) 
+
+            bashCommand="rm -rf ../tools/fldpnn/output/*"
+            output = subprocess.check_output(["bash","-c", bashCommand])
+            print(output.decode('utf-8')) 
+
+    print("Extracting features from fldpnn...") 
+    bashCommand="poetry run python ../tools/fldpnn/run_flDPnn.py "+fasta_filepath
+    output = subprocess.check_output(["bash","-c", bashCommand])
+    print(output.decode('utf-8')) 
+
+    print("Loading ESM-1b model...")
+    # model, alphabet = torch.hub.load("facebookresearch/esm:main", "esm1b_t33_650M_UR50S")
+
+    # Load ESM-1b model
+    
+    model, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+    batch_converter = alphabet.get_batch_converter()
+
+    # %%
+    print("Dispredict3.0 prediction started...")
+    threshold=0.5
+    # flagpid=0
+    for record in SeqIO.parse(fasta_filepath, "fasta"):
+        print(record.id)
+        # pid=record.id.split("|")[1].()
+        pid=record.id.strip()
+        fasta=record.seq
+        # print(pid)
+        # print(fasta)
+
+        print("Sequence length: ", len(fasta))
+
+        if(len(fasta)>1022):
+                n = 1022
+                chunks = [fasta[i:i+n] for i in range(0, len(fasta), n)]
+                # print("No. of Chunks: ",len(chunks))
+
+                flagc=0
+                for chunk in chunks:
+                    # print("chunk length: ",len(chunk))
+                    # print(chunk)
+
+                    data = [ (pid, chunk)]
+                    batch_labels, batch_strs, batch_tokens = batch_converter(data)
+                    flagl=0
+                    # print("Layer", layern)
+                    layern=list(range(34)) 
+                    with torch.no_grad():
+                        results = model(batch_tokens, repr_layers=layern, return_contacts=True)
+                    # Extract per-residue representations (on CPU)
+                    for layern in range(34): #
+                                                                        
+                        token_representations = results["representations"][layern]
+                        toekn=token_representations[0, 1 : len(chunk) + 1].numpy()
+                        toekn=np.hstack((toekn,np.mean(toekn, axis=1).reshape(-1,1)))
+                        if(flagl==0):
+                            np_featurel=toekn
+                            flagl=1
+                        else:
+                            np_featurel=np.hstack((np_featurel,toekn))                       
+        
+
+                if(flagc==0):
+                    np_featurell=np_featurel
+                    flagc=1
+                else:
+                    np_featurell=np.vstack((np_featurell,np_featurel))
+                # print(np_featurell.shape)
+
+        else:
+
+            data = [ (pid, fasta)]
+            batch_labels, batch_strs, batch_tokens = batch_converter(data)
+            flagl=0
+            layern=list(range(34))    
+            # print("Layer", layern)
+            # Extract per-residue representations (on CPU)
+            with torch.no_grad():
+                results = model(batch_tokens, repr_layers=layern, return_contacts=True)
+                        
+            for layern in range(34): #               
+                
+                token_representations = results["representations"][layern]
+                toekn=token_representations[0, 1 : len(fasta) + 1].numpy()
+                toekn=np.hstack((toekn,np.mean(toekn, axis=1).reshape(-1,1)))
+
+                if(flagl==0):
+                    np_featurell=toekn
+                    flagl=1
+                else:
+                    np_featurell=np.hstack((np_featurell,toekn))                  
+        
+        np_fldscore=np.loadtxt("../tools/fldpnn/output/"+pid+".ttscore")
+        np_proba_pred=np.loadtxt("../tools/fldpnn/output/"+pid+".ttpreds")
+        np_index=np.loadtxt("../tools/fldpnn/output/"+pid+".ttindex",dtype='object')
+
+
+        np_fld=np.hstack((np_fldscore,np_proba_pred))       
+
+        scaler= joblib.load("../models/scaler.pkl")
+        np_featurell = scaler.transform(np_featurell)
+
+        ipca= joblib.load("../models/pca.pkl")
+
+        np_featurell = ipca.transform(np_featurell)
+
+        np_allfeat=np.hstack((np_fld, np_featurell))   
+       
+
+        saved_model = joblib.load("../models/model.pkl")
+        # print(np_allfeat.shape)
+        proba = saved_model.predict_proba(np_allfeat)
+        pred = (proba[:,1] >= threshold).astype(np.int)
+
+        result=np.hstack((np_index,np.round(proba[:,1], 3).reshape(-1,1) ,pred.reshape(-1,1))) 
+
+        with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt", "ab") as f:
+            f.write((">"+pid+"\n").encode())
+            fmt = '%s', '%s', '%1.3f', '%s'
+            np.savetxt(f, result, delimiter='\t',fmt=fmt) 
+
+
+    bashCommand="rm -rf ../tools/fldpnn/output/*"
+    output = subprocess.check_output(["bash","-c", bashCommand])
+    print(output.decode('utf-8')) 
+    print("Dispredict3.0 prediction end...")
+if __name__ == '__main__':
+
+    parser = OptionParser()
+    parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default='../example/sample.fasta')
+
+    (options, args) = parser.parse_args()
+
+
+    workspace="../output"
+    pathlib.Path(workspace).mkdir(parents=True, exist_ok=True) 
+
+    workspace="../models"
+    pathlib.Path(workspace).mkdir(parents=True, exist_ok=True)
+
+    loadModels()
+    dispredict(options.fasta_filepath)
+    
+

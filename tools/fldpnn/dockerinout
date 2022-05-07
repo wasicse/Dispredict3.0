@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+# this is a script that uses stdin and stdout for fldpnn input and output
+# This is used by docker container to run fldpnn and communicate input and output with outside the container.
+SCRIPT=$(readlink -f "$0")
+SHPATH=$(dirname "$SCRIPT")
+rm -rf $SHPATH/results
+mkdir $SHPATH/results
+
+echo "$(</dev/stdin)" > $SHPATH/results/input.fasta
+$SHPATH/run_flDPnn.py $SHPATH/results/input.fasta
+cd $SHPATH/results
+tar -cz *
