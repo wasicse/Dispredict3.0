@@ -129,12 +129,12 @@ def dispredict(fasta_filepath):
                             np_featurel=np.hstack((np_featurel,toekn))                       
         
 
-                if(flagc==0):
-                    np_featurell=np_featurel
-                    flagc=1
-                else:
-                    np_featurell=np.vstack((np_featurell,np_featurel))
-                # print(np_featurell.shape)
+                    if(flagc==0):
+                        np_featurell=np_featurel
+                        flagc=1
+                    else:
+                        np_featurell=np.vstack((np_featurell,np_featurel))
+                    # print(np_featurell.shape)
 
         else:
 
