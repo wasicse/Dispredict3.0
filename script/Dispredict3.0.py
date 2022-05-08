@@ -204,7 +204,7 @@ def dispredict(fasta_filepath):
         with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_fullydisPred.txt", "ab") as f:
             f.write((">"+pid+"\n").encode())
             fmt = '%1.3f', '%s'
-            np.savetxt(f, [fd_proba, fd_label ], delimiter='\t',fmt=fmt) 
+            np.savetxt(f, np.array([fd_proba, fd_label ]).reshape(1,2), delimiter='\t',fmt=fmt) 
 
 
     bashCommand="rm -rf ../tools/fldpnn/output/*"
@@ -226,6 +226,7 @@ if __name__ == '__main__':
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True)
 
     loadModels()
+    print("Dataset Path:",options.fasta_filepath)
     dispredict(options.fasta_filepath)
     
 
