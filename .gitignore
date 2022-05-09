@@ -5,3 +5,6 @@
 *.pkl
 swissprot.psq
 swissprot.phr
+verification
+test_fasta_disPred.txt
+test_fasta_fullydisPred.txt
