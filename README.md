@@ -76,7 +76,7 @@ docker build --build-arg USER=$USER \
             --build-arg GID=$GID \
             --build-arg PW=asdf \
             -t wasicse/dispredict3.0\
-            -f Dockerfile.txt\
+            -f dockerfile.txt\
             .        
 ```
  #### (Alternatively) Pull image from Docker registry.
