@@ -86,7 +86,7 @@ docker build --build-arg USER=$USER \
  docker pull wasicse/dispredict3.0
 ```
 #### Run Dispredict3.0 using Docker image
-- Create the dispredict3.0 container and mount the output and input(example) directory into the docker container.
+- Create the dispredict3.0 container and mount the current (Dispredict3.0) directory from GitHub into the docker container.
 
 ```
 docker run -ti --name dispredict3.0 \
