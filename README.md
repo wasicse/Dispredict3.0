@@ -1,4 +1,4 @@
-#   Dispredict3.0
+# Dispredict3.0
 Dispredict3.0: Prediction of Intrinsically Disordered Proteins with Protein
 Language Model
 
@@ -89,8 +89,8 @@ docker build --build-arg USER=$USER \
 - Create the dispredict3.0 container and mount the output and input(example) directory into the docker container.
 
 ```
-docker run -ti --name dispredict3.0_build  \
-        -v /$(pwd):/home/$USER/Dispredict3.0  \
+docker run -ti --name dispredict3.0 \
+        -v /$(pwd):/home/$USER/Dispredict3.0 \
         wasicse/dispredict3.0:latest
 ```
 
