@@ -64,7 +64,7 @@ poetry run python Dispredict3.0.py -f "../example/sample.fasta"
 - The following instructions show how to run dispredict3.0 with docker.
 
 ### Run with Docker
-- You can either build the docker image using dockerfile or pull the docker image from the registry.
+- To run the Dispredict3.0 tool with docker, you can either build the docker image using dockerfile or pull the docker image from the registry.
 #### Build Docker image 
 
 ```
