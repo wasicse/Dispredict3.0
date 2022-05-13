@@ -35,7 +35,7 @@ WORKDIR "/opt/Dispredict3.0"
 ENV PATH="/opt/poetry/bin:${PATH}"
 
 ENV POETRY_VIRTUALENVS_IN_PROJECT="true"
-RUN POETRY_VIRTUALENVS_IN_PROJECT=true &&  poetry install
+RUN poetry install
 # RUN POETRY_VIRTUALENVS_IN_PROJECT=true poetry install --no-dev --no-root
 # RUN /bin/bash -c 'POETRY_VIRTUALENVS_IN_PROJECT=true poetry install --no-dev --no-root'
 RUN chmod -R 750 ./
