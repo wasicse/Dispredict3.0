@@ -59,12 +59,12 @@ def loadModels():
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
 
-def dispredict(fasta_filepath):
+def dispredict(fasta_filepath,output_path):
     
-    path = pathlib.Path("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt")
+    path = pathlib.Path(output_path+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt")
     if path.is_file():
             print("Removing old output files...") 
-            bashCommand="rm -rf ../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt"
+            bashCommand="rm -rf "+output_path+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt"
             output = subprocess.check_output(["bash","-c", bashCommand])
             print(output.decode('utf-8')) 
 
@@ -190,18 +190,18 @@ def dispredict(fasta_filepath):
         num_ones = (pred == 1).sum()
         fd_proba=num_ones/pred.shape[0]
         if(fd_proba > 0.95):
-                print("Fully disorder proteins") 
+                # print("Fully disorder proteins") 
                 fd_label=1               
         else:
-                print("Not Fully disorder proteins") 
+                # print("Not Fully disorder proteins") 
                 fd_label=0 
 
-        with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt", "ab") as f:
+        with open(output_path+fasta_filepath.split("/")[-1].split(".")[0]+"_disPred.txt", "ab") as f:
             f.write((">"+pid+"\n").encode())
             fmt = '%s', '%s', '%1.3f', '%s'
             np.savetxt(f, result, delimiter='\t',fmt=fmt) 
             
-        with open("../output/"+fasta_filepath.split("/")[-1].split(".")[0]+"_fullydisPred.txt", "ab") as f:
+        with open(output_path+fasta_filepath.split("/")[-1].split(".")[0]+"_fullydisPred.txt", "ab") as f:
             f.write((">"+pid+"\n").encode())
             fmt = '%1.3f', '%s'
             np.savetxt(f, np.array([fd_proba, fd_label ]).reshape(1,2), delimiter='\t',fmt=fmt) 
@@ -215,11 +215,12 @@ if __name__ == '__main__':
 
     parser = OptionParser()
     parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default='../example/sample.fasta')
+    parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default='../output/')
 
     (options, args) = parser.parse_args()
 
 
-    workspace="../output"
+    workspace=options.output_path
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True) 
 
     workspace="../models"
@@ -227,6 +228,7 @@ if __name__ == '__main__':
 
     loadModels()
     print("Dataset Path:",options.fasta_filepath)
-    dispredict(options.fasta_filepath)
+    print("Output Path:",options.output_path)
+    dispredict(options.fasta_filepath,options.output_path)
     
 
