@@ -10,6 +10,7 @@ Language Model
 - [Download and install code](#download-and-install-code)
 - [Run with local OS](#Run-with-local-OS)
 - [Run with Docker](#Run-with-Docker)
+- [Run with Singularity](#Run-with-Singularity)
 - [References](#References) 
 
 # Getting Started
