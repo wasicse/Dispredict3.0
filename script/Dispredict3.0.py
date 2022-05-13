@@ -25,20 +25,20 @@ np.random.seed(seed_value)
 
 def loadModels():
     print("Loading models...")
-    output = "../models/model.pkl"
+    output = parent_path+"/models/model.pkl"
     path = pathlib.Path(output)
     if not path.is_file():
         
         url = "https://drive.google.com/file/d/1AtbqscE6ZnTTCSnyVl638Gdapwra6ZVW/view?usp=sharing"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
-    output = "../models/pca.pkl"
+    output = parent_path+"/models/pca.pkl"
     path = pathlib.Path(output)
     if not path.is_file():
         url = "https://drive.google.com/file/d/1AyuZjqtY9FEX42_FBScgKU1Z306Q40Q_/view?usp=sharing"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
-    output = "../models/scaler.pkl"
+    output = parent_path+"/models/scaler.pkl"
     path = pathlib.Path(output)
     if not path.is_file():
         url = "https://drive.google.com/file/d/1B25xIOsY5cah16WATiSE3nmEP239snOO/view?usp=sharing"
@@ -46,13 +46,13 @@ def loadModels():
 
 
 
-    output = "../tools/fldpnn/programs/blast-2.2.24/db/swissprot.psq"
+    output = parent_path+"/tools/fldpnn/programs/blast-2.2.24/db/swissprot.psq"
     path = pathlib.Path(output)
     if not path.is_file():
         url = "https://drive.google.com/file/d/1--7n1F_hfsQRIn3G9EomcUudq1ulrt_u/view?usp=sharing"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
-    output = "../tools/fldpnn/programs/blast-2.2.24/db/swissprot.phr"
+    output = parent_path+"/tools/fldpnn/programs/blast-2.2.24/db/swissprot.phr"
     path = pathlib.Path(output)
     if not path.is_file():
         url = "https://drive.google.com/file/d/1-MLCrnS4n8Ip9tmMHXOaoBezrgAqjnOw/view?usp=sharing"
@@ -68,12 +68,12 @@ def dispredict(fasta_filepath,output_path):
             output = subprocess.check_output(["bash","-c", bashCommand])
             print(output.decode('utf-8')) 
 
-            bashCommand="rm -rf ../tools/fldpnn/output/*"
+            bashCommand="rm -rf "+parent_path+"/tools/fldpnn/output/*"
             output = subprocess.check_output(["bash","-c", bashCommand])
             print(output.decode('utf-8')) 
 
     print("Extracting features from fldpnn...") 
-    bashCommand="poetry run python ../tools/fldpnn/run_flDPnn.py "+fasta_filepath
+    bashCommand="poetry run python "+parent_path+"/tools/fldpnn/run_flDPnn.py "+fasta_filepath
     output = subprocess.check_output(["bash","-c", bashCommand])
     print(output.decode('utf-8')) 
 
@@ -159,24 +159,24 @@ def dispredict(fasta_filepath,output_path):
                 else:
                     np_featurell=np.hstack((np_featurell,toekn))                  
         
-        np_fldscore=np.loadtxt("../tools/fldpnn/output/"+pid+".ttscore")
-        np_proba_pred=np.loadtxt("../tools/fldpnn/output/"+pid+".ttpreds")
-        np_index=np.loadtxt("../tools/fldpnn/output/"+pid+".ttindex",dtype='object')
+        np_fldscore=np.loadtxt(parent_path+"/tools/fldpnn/output/"+pid+".ttscore")
+        np_proba_pred=np.loadtxt(parent_path+"/tools/fldpnn/output/"+pid+".ttpreds")
+        np_index=np.loadtxt(parent_path+"/tools/fldpnn/output/"+pid+".ttindex",dtype='object')
 
 
         np_fld=np.hstack((np_fldscore,np_proba_pred))       
 
-        scaler= joblib.load("../models/scaler.pkl")
+        scaler= joblib.load(parent_path+"/models/scaler.pkl")
         np_featurell = scaler.transform(np_featurell)
 
-        ipca= joblib.load("../models/pca.pkl")
+        ipca= joblib.load(parent_path+"/models/pca.pkl")
 
         np_featurell = ipca.transform(np_featurell)
 
         np_allfeat=np.hstack((np_fld, np_featurell))   
        
 
-        saved_model = joblib.load("../models/model.pkl")
+        saved_model = joblib.load(parent_path+"/models/model.pkl")
         # print(np_allfeat.shape)
         proba = saved_model.predict_proba(np_allfeat)
 
@@ -207,15 +207,18 @@ def dispredict(fasta_filepath,output_path):
             np.savetxt(f, np.array([fd_proba, fd_label ]).reshape(1,2), delimiter='\t',fmt=fmt) 
 
 
-    bashCommand="rm -rf ../tools/fldpnn/output/*"
+    bashCommand="rm -rf "+parent_path+"tools/fldpnn/output/*"
     output = subprocess.check_output(["bash","-c", bashCommand])
     print(output.decode('utf-8')) 
     print("Dispredict3.0 prediction end...")
 if __name__ == '__main__':
-
+    
+    parent_path = Path(__file__).resolve().parents[1]
+    print("Parent Dir",parent_path)
+    
     parser = OptionParser()
-    parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default='../example/sample.fasta')
-    parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default='../output/')
+    parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default=parent_path'/example/sample.fasta')
+    parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default=parent_path+'/output/')
 
     (options, args) = parser.parse_args()
 
@@ -223,7 +226,7 @@ if __name__ == '__main__':
     workspace=options.output_path
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True) 
 
-    workspace="../models"
+    workspace=parent_path+"/models"
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True)
 
     loadModels()
