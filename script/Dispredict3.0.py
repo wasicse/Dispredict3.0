@@ -214,7 +214,7 @@ def dispredict(fasta_filepath,output_path):
     print("Dispredict3.0 prediction end...")
 if __name__ == '__main__':
     
-    parent_path = Path(__file__).resolve().parents[1]
+    parent_path = str(Path(__file__).resolve().parents[1])
     print("Parent Dir",parent_path)
     
     parser = OptionParser()
