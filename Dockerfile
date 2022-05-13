@@ -35,7 +35,7 @@ WORKDIR "/opt/Dispredict3.0"
 ENV PATH="/opt/poetry/bin:${PATH}"
 RUN POETRY_VIRTUALENVS_IN_PROJECT=true
 RUN poetry install
-
+RUN chmod -R 750 ./
 ENTRYPOINT [ "/bin/bash" ]
 
 
