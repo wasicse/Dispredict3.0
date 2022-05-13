@@ -58,7 +58,7 @@ Then execute the following command to run Dispredict3.0 from the script director
 
 ```
 cd script
-poetry run python Dispredict3.0.py -f "../example/sample.fasta"
+poetry run python Dispredict3.0.py -f "../example/sample.fasta" -o "../example/sample.fasta"
 ```
 
 - The following instructions show how to run dispredict3.0 with docker.
