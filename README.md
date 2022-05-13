@@ -68,16 +68,7 @@ poetry run python Dispredict3.0.py -f "../example/sample.fasta"
 #### Build Docker image 
 
 ```
-cd Dispredict3.0
-export UID=$(id -u)
-export GID=$(id -g)
-docker build --build-arg USER=$USER \
-            --build-arg UID=$UID \
-            --build-arg GID=$GID \
-            --build-arg PW=asdf \
-            -t wasicse/dispredict3.0\
-            -f dockerfile.txt\
-            .        
+docker build -t wasicse/dispredict3.0 https://github.com/wasicse/Dispredict3.0.git#main    
 ```
  #### (Alternatively) Pull image from Docker registry.
 
