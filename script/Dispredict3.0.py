@@ -215,14 +215,16 @@ def dispredict(fasta_filepath,output_path):
 if __name__ == '__main__':
     
     parent_path = str(Path(__file__).resolve().parents[1])
-    print("Parent Dir",parent_path)
+    # print("Parent Dir",parent_path)
     
     parser = OptionParser()
     parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default=parent_path+'/example/sample.fasta')
     parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default=parent_path+'/output/')
 
     (options, args) = parser.parse_args()
-
+    
+    print("Dataset Path:",options.fasta_filepath)
+    print("Output Path:",options.output_path)
 
     workspace=options.output_path
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True) 
@@ -231,8 +233,7 @@ if __name__ == '__main__':
     pathlib.Path(workspace).mkdir(parents=True, exist_ok=True)
 
     loadModels()
-    print("Dataset Path:",options.fasta_filepath)
-    print("Output Path:",options.output_path)
+    
     dispredict(options.fasta_filepath,options.output_path)
     
 
