@@ -74,7 +74,7 @@ def dispredict(fasta_filepath,output_path):
             print(output.decode('utf-8')) 
 
     print("Extracting features from fldpnn...") 
-    bashCommand="poetry run python "+parent_path+"/tools/fldpnn/run_flDPnn.py "+fasta_filepath
+    bashCommand="python "+parent_path+"/tools/fldpnn/run_flDPnn.py "+fasta_filepath
     output = subprocess.check_output(["bash","-c", bashCommand])
     print(output.decode('utf-8')) 
 
@@ -222,7 +222,7 @@ if __name__ == '__main__':
     parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default=parent_path+'/output/')
 
     (options, args) = parser.parse_args()
-    
+
     print("Dataset Path:",options.fasta_filepath)
     print("Output Path:",options.output_path)
 

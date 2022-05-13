@@ -80,28 +80,20 @@ docker build -t wasicse/dispredict3.0 https://github.com/wasicse/Dispredict3.0.g
 - Create the dispredict3.0 container and mount the current (Dispredict3.0) directory (downlaoded from GitHub) into the docker container.
 
 ```
-docker run -ti --name dispredict3.0 \
-        -v /$(pwd):/home/$USER/Dispredict3.0 \
-        wasicse/dispredict3.0:latest
+docker run -ti --name dispredict3.0  wasicse/dispredict3.0:latest
 ```
 
 - Then, run following python commands inside the docker container to have the disordered prediction.
 
 ```
-source /opt/bin/poetry/env
-
 export PATH="/opt/poetry/bin:${PATH}"
-poetry shell
-source /root/.cache/pypoetry/virtualenvs/dispredict3.0-EjkGTcja-py3.7/bin/activate
-
-source /opt/poetry/venv/bin/activate
-cd Dispredict3.0/script
-poetry run python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "./"
+source /opt/Dispredict3.0/.venv/bin/activate
+python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "/opt/Dispredict3.0/output/"
 ```
 
 - Finally, check **output** folder for results. The output should be available in both the host and docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
 
-
+docker cp dispredict3.0:/opt/Dispredict3.0/output/* .
 
 ## Authors
 
