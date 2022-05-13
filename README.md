@@ -74,7 +74,7 @@ docker build -t wasicse/dispredict3.0 https://github.com/wasicse/Dispredict3.0.g
 
 - Pull the image from the registry.
  ```
- docker pull wasicse/dispredict3.0
+docker pull wasicse/dispredict3.0
 ```
 #### Run Dispredict3.0 using Docker image
 - Create the dispredict3.0 container and mount the current (Dispredict3.0) directory (downlaoded from GitHub) into the docker container.
@@ -91,9 +91,13 @@ source /opt/Dispredict3.0/.venv/bin/activate
 python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "/opt/Dispredict3.0/output/"
 ```
 
-- Finally, check **output** folder for results. The output should be available in both the host and docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
+- Finally, check **output** folder for results. The output should be available in both the docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
 
-docker cp dispredict3.0:/opt/Dispredict3.0/output/* .
+- You can also copy the output to the host computer using the following command:
+
+```
+docker cp dispredict3.0:/opt/Dispredict3.0/output/ .
+```
 
 ## Authors
 
