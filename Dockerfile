@@ -38,7 +38,7 @@ ENV POETRY_VIRTUALENVS_IN_PROJECT="true"
 RUN poetry install
 # RUN POETRY_VIRTUALENVS_IN_PROJECT=true poetry install --no-dev --no-root
 # RUN /bin/bash -c 'POETRY_VIRTUALENVS_IN_PROJECT=true poetry install --no-dev --no-root'
-RUN chmod -R 777 Dispredict3.0
+RUN chmod -R 777 ../
 ENTRYPOINT [ "/bin/bash" ]
 
 
