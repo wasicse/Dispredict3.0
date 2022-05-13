@@ -88,10 +88,15 @@ docker run -ti --name dispredict3.0 \
 - Then, run following python commands inside the docker container to have the disordered prediction.
 
 ```
-source $HOME/.poetry/env
+source /opt/bin/poetry/env
+
+export PATH="/opt/poetry/bin:${PATH}"
 poetry shell
+source /root/.cache/pypoetry/virtualenvs/dispredict3.0-EjkGTcja-py3.7/bin/activate
+
+source /opt/poetry/venv/bin/activate
 cd Dispredict3.0/script
-poetry run python Dispredict3.0.py -f "../example/sample.fasta"
+poetry run python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "./"
 ```
 
 - Finally, check **output** folder for results. The output should be available in both the host and docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.

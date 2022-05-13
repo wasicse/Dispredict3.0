@@ -33,8 +33,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 RUN git clone https://github.com/wasicse/Dispredict3.0.git
 WORKDIR "/opt/Dispredict3.0"
 ENV PATH="/opt/poetry/bin:${PATH}"
-RUN POETRY_VIRTUALENVS_IN_PROJECT=true
-RUN poetry install
+RUN POETRY_VIRTUALENVS_IN_PROJECT=true &&  poetry install
 RUN chmod -R 750 ./
 ENTRYPOINT [ "/bin/bash" ]
 
