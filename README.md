@@ -91,13 +91,30 @@ source /opt/Dispredict3.0/.venv/bin/activate
 python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "/opt/Dispredict3.0/output/"
 ```
 
-- Finally, check **output** folder for results. The output should be available in both the docker container. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
+- Check **output** folder for results. The output should be available only inside the docker container. 
 
 - You can also copy the output to the host computer using the following command:
 
 ```
 docker cp dispredict3.0:/opt/Dispredict3.0/output/ .
 ```
+### Run with Singularity 
+
+- You can also run using Singularity using the following command.
+
+```
+singularity pull dispredict3.sif docker://wasicse/dispredict3.0
+singularity run --writable-tmpfs dispredict3.sif
+```
+- Then, run following python commands inside the Singularity container to have the disordered prediction.
+
+```
+export PATH="/opt/poetry/bin:${PATH}"
+source /opt/Dispredict3.0/.venv/bin/activate
+python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example/sample.fasta" -o "/opt/Dispredict3.0/output/"
+```
+
+- The **output** folder should contain the results. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
 
 ## Authors
 
