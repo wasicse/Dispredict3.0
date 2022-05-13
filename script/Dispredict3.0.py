@@ -217,7 +217,7 @@ if __name__ == '__main__':
     print("Parent Dir",parent_path)
     
     parser = OptionParser()
-    parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default=parent_path'/example/sample.fasta')
+    parser.add_option("-f", "--fasta_filepath", dest="fasta_filepath", help="Path to input fasta.", default=parent_path+'/example/sample.fasta')
     parser.add_option("-o", "--output_path", dest="output_path", help="Path to output.", default=parent_path+'/output/')
 
     (options, args) = parser.parse_args()
