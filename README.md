@@ -6,9 +6,9 @@ Language Model
 
 - [Setup](#getting-started)
 - [Dataset](#Dataset)
-- [Prerequisites](#Prerequisites)
-- [Download and install code](#download-and-install-code)
 - [Run with local OS](#Run-with-local-OS)
+- [Prerequisites](#Prerequisites)
+- [Download and install code](#download-the-code)
 - [Run with Docker](#Run-with-Docker)
 - [Run with Singularity](#Run-with-Singularity)
 - [References](#References) 
@@ -21,38 +21,61 @@ These instructions will get you a copy of the project up and running on your loc
  ## Dataset
 The dataset can be found in the dataset directory. The train, test, and validation set is collected from [1].
 
-## Prerequisites
+## Run with local OS
+### Download the code
 
-You would need to install the following software before replicating this framework in your local or server machine.
-
- ```
-Python version 3.7.4
-
-Poetry version 1.1.13
- ```
-- Install poetry by running the following command:
- ```
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
- ```
-To configure your current shell run the following command.
-```
-source $HOME/.poetry/env
- ``` 
-## Download and install code
 
 - Retrieve the code
 
 ```
 git clone https://github.com/wasicse/Dispredict3.0.git
+
 ```
 
-### Run with local OS
+### Prerequisites
+
+We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
+
+1. pyenv latest version
+
+    curl https://pyenv.run | bash
+    exec $SHEL
+    For more details, visit: https://github.com/pyenv/pyenv-installer
+
+1. Python version 3.7.4
+
+    pyenv install miniconda3-4.7.12
+    pyenv local miniconda3-4.7.12 
+    For more details, visit: https://github.com/pyenv/pyenv
+
+2. Poetry version 1.1.13
+
+    curl -sSL https://install.python-poetry.org | python3 - --version 1.1.13
+    For more details, visit: https://python-poetry.org/docs/
+
+3. tcsh  shell version 6.21.00-1
+
+    git clone https://github.com/tcsh-org/tcsh
+    cd tcsh
+    ./configure
+    make
+    For more details, visit: https://github.com/tcsh-org/tcsh
+
+3. Setup fldpnn tool
+
+    Copy the tcsh executable file into the corresponding directory.
+
+        cp tcsh ../Dispredict3.0/tools/fldpnn/programs/fMoRFpred/
+        cp tcsh ../Dispredict3.0/tools/fldpnn/programs/DisoRDPbind/psipred  
+
+### Run Dispredict3.0
 
 To run the program, first install all required libraries by running the following command:
 
 ```
 cd Dispredict3.0
 poetry install
+poetry shell
 ```
 
 Then execute the following command to run Dispredict3.0 from the script directory.

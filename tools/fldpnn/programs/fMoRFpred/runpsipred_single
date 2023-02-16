@@ -1,4 +1,4 @@
-#!/bin/tcsh
+#!tcsh
 
 # This is a simple script which will carry out all of the basic steps
 # required to make a PSIPRED prediction. Note that it assumes that the

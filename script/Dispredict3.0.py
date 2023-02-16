@@ -30,19 +30,19 @@ def loadModels():
     path = pathlib.Path(output)
     if not path.is_file():
         
-        url = "https://drive.google.com/file/d/1AtbqscE6ZnTTCSnyVl638Gdapwra6ZVW/view?usp=sharing"
+        url = "https://www.cs.uno.edu/~mkabir3/Dispredict3.0/models/model.pkl"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
     output = parent_path+"/models/pca.pkl"
     path = pathlib.Path(output)
     if not path.is_file():
-        url = "https://drive.google.com/file/d/1AyuZjqtY9FEX42_FBScgKU1Z306Q40Q_/view?usp=sharing"
+        url = "https://www.cs.uno.edu/~mkabir3/Dispredict3.0/models/pca.pkl"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
     output = parent_path+"/models/scaler.pkl"
     path = pathlib.Path(output)
     if not path.is_file():
-        url = "https://drive.google.com/file/d/1B25xIOsY5cah16WATiSE3nmEP239snOO/view?usp=sharing"
+        url = "https://www.cs.uno.edu/~mkabir3/Dispredict3.0/models/scaler.pkl"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
 
@@ -50,13 +50,13 @@ def loadModels():
     output = parent_path+"/tools/fldpnn/programs/blast-2.2.24/db/swissprot.psq"
     path = pathlib.Path(output)
     if not path.is_file():
-        url = "https://drive.google.com/file/d/1--7n1F_hfsQRIn3G9EomcUudq1ulrt_u/view?usp=sharing"
+        url = "https://www.cs.uno.edu/~mkabir3/Dispredict3.0/db/swissprot.psq"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
     output = parent_path+"/tools/fldpnn/programs/blast-2.2.24/db/swissprot.phr"
     path = pathlib.Path(output)
     if not path.is_file():
-        url = "https://drive.google.com/file/d/1-MLCrnS4n8Ip9tmMHXOaoBezrgAqjnOw/view?usp=sharing"
+        url = "https://www.cs.uno.edu/~mkabir3/Dispredict3.0/db/swissprot.phr"
         gdown.download(url=url, output=output, quiet=False, fuzzy=True)
 
 
