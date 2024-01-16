@@ -32,7 +32,7 @@ git clone https://github.com/wasicse/Dispredict3.0.git
 
 ```
 
-### Prerequisites
+### Install Dependencies in local OS
 
 We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
 
@@ -78,27 +78,38 @@ We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the foll
         cp tcsh ../Dispredict3.0/tools/fldpnn/programs/fMoRFpred/
         cp tcsh ../Dispredict3.0/tools/fldpnn/programs/DisoRDPbind/psipred  
         ```
-### Run Dispredict3.0
+
 
 To run the program, first install all required libraries by running the following command:
 
 ```
 cd Dispredict3.0
-poetry install
-poetry shell
+../.venv/bin/poetry install
+../.venv/bin/poetry shell
 ```
 
-Then execute the following command to run Dispredict3.0 from the script directory.
+#### (Alternatively) Install Dependencies in local OS with SHELL script
+
+You can install all dependencies by running the following script:
+
+```
+./install_dependencies.sh
+```
+
+### Run Dispredict3.0 in local OS
+
+Execute the following command to run Dispredict3.0 from the script directory.
 
 ```
 cd script
-poetry run python Dispredict3.0.py -f "../example/sample.fasta" -o "../output/"
+../.venv/bin/poetry run python Dispredict3.0.py -f "../example/sample.fasta" -o "../output/"
 ```
 
 - The following instructions show how to run dispredict3.0 with docker.
 
 ## Run with Docker
 - To run the Dispredict3.0 tool with docker, you can either build the docker image using dockerfile or pull the docker image from the registry.
+
 #### Build Docker image 
 
 ```
@@ -149,6 +160,16 @@ python /opt/Dispredict3.0/script/Dispredict3.0.py -f "/opt/Dispredict3.0/example
 ```
 
 - The **output** folder should contain the results. The output directory contains the disorder probabilities with labels for each residue in **sample_disPred.txt** file. The fully disorder prediction for each protein sequence is stored in **sample_fullydisPred.txt** file.
+
+## Run Parallel Dispredict3.0 with Docker container
+
+To run the parallel version of Dispredict3.0 execute the following commands:
+
+```
+cd ParallelDispredict3.0
+./parallelDispredict.sh
+
+```
 
 ## Authors
 
