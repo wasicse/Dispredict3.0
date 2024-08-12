@@ -11,3 +11,7 @@ test_fasta_fullydisPred.txt
 poetry.lock
 ParallelDispredict3.0/temp
 ParallelDispredict3.0/outputs
+tcsh
+*.deb
+tools/fldpnn/output
+output

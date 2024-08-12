@@ -25,7 +25,7 @@ pyenv local $pythonversion
 
 # Create local poetry environment
 rm -rf .venv
-rm -rf poetry.lock
+# rm -rf poetry.lock
 python3 -m venv .venv
 ./.venv/bin/pip install -U pip setuptools
 ./.venv/bin/pip install poetry==$poetryversion
@@ -37,3 +37,17 @@ POETRY_VIRTUALENVS_IN_PROJECT="true"
 #Test Installation.venv/bin/poetry run which python
 ./.venv/bin/poetry run python --version
 ./.venv/bin/poetry install --no-root
+
+# install torch
+../.venv/bin/pip install torch
+
+
+git clone https://github.com/tcsh-org/tcsh
+cd tcsh
+./configure
+make
+
+cp tcsh ../tools/fldpnn/programs/fMoRFpred/
+cp tcsh ../tools/fldpnn/programs/DisoRDPbind/psipred  
+cd ..
+

@@ -96,6 +96,11 @@ You can install all dependencies by running the following script:
 ./install_dependencies.sh
 ```
 
+To resolve the missing library error (libidn.so.11), please install the following package (requires sudo access):
+```
+wget http://mirrors.kernel.org/ubuntu/pool/main/libi/libidn/libidn11_1.33-2.2ubuntu2_amd64.deb
+sudo apt install ./libidn11_1.33-2.2ubuntu2_amd64.deb
+```
 ### Run Dispredict3.0 in local OS
 
 Execute the following command to run Dispredict3.0 from the script directory.

@@ -74,7 +74,7 @@ def dispredict(fasta_filepath,output_path):
             print(output.decode('utf-8')) 
 
     print("Extracting features from fldpnn...") 
-    bashCommand="python "+parent_path+"/tools/fldpnn/run_flDPnn.py "+fasta_filepath
+    bashCommand="../.venv/bin/python "+parent_path+"/tools/fldpnn/run_flDPnn.py "+fasta_filepath
     output = subprocess.check_output(["bash","-c", bashCommand])
     print(output.decode('utf-8')) 
 

@@ -106,7 +106,7 @@ mkdir tmp$number
 cat $TMPDIR/idlist|while read line;do
 	cut -d $'\t' -f 3-317 $SCOREDIR/$line.score > ./tmp$number/$line.ttscore
 	cut -d $'\t' -f 1-2 $SCOREDIR/$line.score > ./tmp$number/$line.ttindex
-	python3 Disnet.py ./tmp$number/$line.ttscore > ./tmp$number/$line.ttpreds
+	../../../../.venv/bin/python Disnet.py ./tmp$number/$line.ttscore > ./tmp$number/$line.ttpreds
 	paste ./tmp$number/$line.ttindex ./tmp$number/$line.ttpreds > $PREDIR/$line.nn.pred
 	if [ ! -d ../../output ];then
 		mkdir ../../output
